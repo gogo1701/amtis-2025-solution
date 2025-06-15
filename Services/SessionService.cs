@@ -21,7 +21,7 @@ namespace Services
 
             var requestBody = new
             {
-                session.SessionId, 
+                session.CompetitorId, 
                 session.SessionType
             };
 
