@@ -1,8 +1,7 @@
 ﻿using Models.Enums;
 using Models.Objects;
 using Services.Interfaces;
-using System.Text;
-using System.Text.Json;
+using System.Net.Http.Json;
 
 namespace Services
 {
@@ -17,25 +16,24 @@ namespace Services
 
         public async Task<Session> GetSessionIdAsync(SessionType sessionType)
         {
-            Session session = new Session();
-
-            var requestBody = new
+            var session = new Session
             {
-                session.CompetitorId, 
-                session.SessionType
+                SessionType = sessionType.ToString().ToLowerInvariant()
             };
 
-            var jsonRequestBody = new StringContent(
-                JsonSerializer.Serialize(requestBody),
-                Encoding.UTF8,
-                "application/json"
-            );  
+            var response = await _httpClient.PostAsJsonAsync("sessions", session);
 
-            var response = await _httpClient.PostAsync(_httpClient.BaseAddress + "sessions", jsonRequestBody);
+            var responseContent = await response.Content.ReadFromJsonAsync<Session>();
 
-            var responseContent = await response.Content.ReadAsStringAsync();
-
-            session = JsonSerializer.Deserialize<Session>(responseContent);
+            session.SessionId = responseContent.SessionId;
+            session.DailyClientLimit = responseContent.DailyClientLimit;
+            session.WeeklyClientLimit = responseContent.WeeklyClientLimit;
+            session.AllowedTransactionsPer10s = responseContent.AllowedTransactionsPer10s;
+            session.InterchangeFeePercentage = responseContent.InterchangeFeePercentage;
+            session.StandardDailyLimit = responseContent.StandardDailyLimit;
+            session.StandardWeeklyLimit = responseContent.StandardWeeklyLimit;
+            session.PremiumDailyLimit = responseContent.PremiumDailyLimit;
+            session.PremiumWeeklyLimit = responseContent.PremiumWeeklyLimit;
 
             return session;
         }

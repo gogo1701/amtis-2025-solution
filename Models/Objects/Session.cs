@@ -2,8 +2,10 @@
 {
     public class Session
     {
-        public string CompetitorId = "943cb6c0-4367-11f0-bc60-0242ac130003";
+        public string CompetitorId { get; set; } = "943cb6c0-4367-11f0-bc60-0242ac130003";
         public string SessionType { get; set; } = "test";
+        public string GitSHA { get; set; } = "578d574f04fc6e8313c61c7deea9bf63da756db9";
+
         public string SessionId { get; set; }
 
         public int DailyClientLimit { get; set; }
