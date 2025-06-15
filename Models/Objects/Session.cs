@@ -3,7 +3,7 @@
     public class Session
     {
         public static string CompetitorId = "943cb6c0-4367-11f0-bc60-0242ac130003";
-        public string SessionType { get; set; } = "Test";
+        public string SessionType { get; set; } = "test";
         public string SessionId { get; set; }
 
         public int DailyClientLimit { get; set; }

@@ -1,9 +1,10 @@
 ﻿using Models.Enums;
+using Models.Objects;
 
 namespace Services.Interfaces
 {
     interface ISessionService
     {
-        public Task<string> GetSessionIdAsync(SessionType sessionType);
+        public Task<Session> GetSessionIdAsync(SessionType sessionType);
     }
 }

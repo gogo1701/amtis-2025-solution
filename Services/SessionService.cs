@@ -1,5 +1,8 @@
 ﻿using Models.Enums;
+using Models.Objects;
 using Services.Interfaces;
+using System.Text;
+using System.Text.Json;
 
 namespace Services
 {
@@ -12,9 +15,29 @@ namespace Services
             _httpClient.BaseAddress = uri;
         }
 
-        public Task<string> GetSessionIdAsync(SessionType sessionType)
+        public Task<Session> GetSessionIdAsync(SessionType sessionType)
         {
-            throw new NotImplementedException();
+            Session session = new Session();
+
+            var requestBody = new
+            {
+                session.SessionId, 
+                session.SessionType
+            };
+
+            var jsonRequestBody = new StringContent(
+                JsonSerializer.Serialize(requestBody),
+                Encoding.UTF8,
+                "application/json"
+            );  
+
+            var response = _httpClient.PostAsync(_httpClient.BaseAddress + "sessions", jsonRequestBody);
+
+            var responseContent = response.Result.Content.ReadAsStringAsync().Result;
+
+            session = JsonSerializer.Deserialize<Session>(responseContent);
+
+            return session.;
         }
     }
 }
