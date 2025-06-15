@@ -15,7 +15,7 @@ namespace Services
             _httpClient.BaseAddress = uri;
         }
 
-        public Task<Session> GetSessionIdAsync(SessionType sessionType)
+        public async Task<Session> GetSessionIdAsync(SessionType sessionType)
         {
             Session session = new Session();
 
@@ -31,13 +31,13 @@ namespace Services
                 "application/json"
             );  
 
-            var response = _httpClient.PostAsync(_httpClient.BaseAddress + "sessions", jsonRequestBody);
+            var response = await _httpClient.PostAsync(_httpClient.BaseAddress + "sessions", jsonRequestBody);
 
-            var responseContent = response.Result.Content.ReadAsStringAsync().Result;
+            var responseContent = await response.Content.ReadAsStringAsync();
 
             session = JsonSerializer.Deserialize<Session>(responseContent);
 
-            return session.;
+            return session;
         }
     }
 }
